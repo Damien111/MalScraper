@@ -162,48 +162,6 @@ declare module 'mal-scraper' {
 
   //=/ ----- CLASSES ----- /=//
 
-  class officialApi {
-    public constructor(options: OfficialApiOptions);
-
-    /**
-     * Check if the credentials given in the constructor are valid.
-     * @returns A string `"Invalid Credentials"` if the credentials are invalid, otherwise, the raw XML document with the id & the username of the account.
-     */
-    public checkCredentials(): Promise<string>;
-
-    /**
-     * Search an anime/manga from the official MyAnimeList API.
-     * @param type The type, can be either `anime` or `manga`. Defaults to `anime`.
-     * @param name The name of the anime/manga to search.
-     */
-    public search<T extends AllowedTypes = 'anime'>(
-      type: T,
-      name: string
-    ): Promise<
-      T extends 'anime'
-        ? AnimeDataModel[]
-        : T extends 'manga'
-        ? MangaDataModel[]
-        : never
-    >;
-
-    /**
-     * Act on the account given in the constructor MAL.
-     * @param action An object wich should contain the type of the manga/anime and the action to do.
-     * @param id The unique identifier of the anime/manga.
-     * @param name The name of the anime/manga.
-     * @param details An object that contains all the properties described [here](https://myanimelist.net/modules.php?go=api#animevalues).
-     */
-    public actOnList<T extends AllowedTypes = 'anime'>(
-      action: ActionActOnList<T>,
-      id: number,
-      name: string,
-      details: ActionActOnListOptionsDetails
-    ): Promise<void | string>;
-
-    private _credentials: OfficialApiOptions;
-  }
-
   //=/ ---- TYPES ---- /=//
 
   type AllowedTypes = 'anime' | 'manga';
@@ -1663,18 +1621,6 @@ declare module 'mal-scraper' {
      * The link of the image
      */
     imageLink?: string;
-  }
-
-  interface OfficialApiOptions {
-    /**
-     * Your MAL username
-     */
-    username: string;
-
-    /**
-     * Your MAL password
-     */
-    password: string;
   }
 
   interface ActionActOnList<T extends AllowedTypes = 'anime'> {
